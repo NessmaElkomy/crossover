@@ -1,0 +1,86 @@
+
+To address the defect related to tags in the Conduit project, follow these steps:
+
+Understanding the Defect
+
+When creating a new article, tags are broken up into individual characters on the post view page.
+New tags are not shown on the home page under "Popular Tags" even after a page refresh.
+Expected Behavior:
+
+Users should be able to enter tags in a comma-separated list in the "tag" form field.
+Tags should be split by commas and trimmed for whitespace.
+Any new tags should appear on the home page in the "Popular Tags" section after a page refresh.
+Steps to Fix the Defect
+Inspect the Code:
+
+Backend (NestJS): Check how tags are handled when a new article is created. Look at the service and repository methods related to saving and fetching tags.
+Frontend (Angular): Verify how tags are rendered on the post view page and the home page. Look at the component responsible for displaying tags.
+Problem 1: Tags Broken Up Into Individual Characters
+
+Root Cause Analysis:
+Tags might be stored or displayed as individual characters due to incorrect data processing or display logic.
+Instructions for Fixing:
+Check if the tags are correctly formatted before being saved to the database.
+Ensure the tags are properly joined or concatenated when rendering them on the post view page.
+Problem 2: New Tags Not Shown on the Home Page
+
+Root Cause Analysis:
+The home page may not be fetching or updating the list of popular tags correctly.
+Instructions for Fixing:
+Ensure that after creating a new article with tags, the tags are correctly updated in the database.
+Verify that the "Popular Tags" section on the home page retrieves and displays the updated tags list.
+Implementation Guide
+Backend Fixes (NestJS):
+
+Service Layer: Ensure tags are processed and stored correctly.
+Controller Layer: Make sure the API endpoints handle tags correctly when creating or updating articles.
+Repository Layer: Confirm that tags are saved and queried efficiently.
+Frontend Fixes (Angular):
+
+Component for Post View: Check if tags are correctly parsed and displayed. Ensure no logic is splitting tags into characters.
+Component for Popular Tags: Verify that this component fetches and displays updated tags correctly.
+Code Example
+Here’s a conceptual example of how to fix the issue:
+
+Backend (NestJS):
+
+// In article.service.ts
+async createArticle(createArticleDto: CreateArticleDto): Promise<Article> {
+    const tags = createArticleDto.tags.split(',').map(tag => tag.trim());
+    // Save article with tags
+}
+Frontend (Angular):
+
+
+// In post-view.component.ts
+displayTags(tags: string[]): string {
+    return tags.join(', ');
+}
+
+// In home-page.component.ts
+fetchPopularTags() {
+    this.articleService.getPopularTags().subscribe(tags => {
+        this.popularTags = tags;
+    });
+}
+Testing
+Create a New Article:
+
+Use the form to enter tags and create an article.
+Verify that the tags are correctly displayed on the post view page.
+Refresh Home Page:
+
+Ensure the new tags appear in the "Popular Tags" section.
+Submitting Your Work
+Capture Screenshots:
+
+Take screenshots showing the tags working as expected.
+Export Chat Sessions:
+
+Export the relevant chat sessions used to resolve the defect.
+Fill Out root-causes.md:
+
+Provide explanations for the root causes of the problems and how they were fixed.
+Run Submission Script:
+
+Follow the instructions provided in the npm run submit command.
